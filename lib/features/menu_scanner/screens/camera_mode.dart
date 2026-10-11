@@ -5,12 +5,14 @@ class CameraMode extends StatelessWidget {
   final CameraController? controller;
   final bool isScanning;
   final VoidCallback onTakePicture;
+  final VoidCallback onPickImage;
 
   const CameraMode({
     super.key,
     required this.controller,
     required this.isScanning,
     required this.onTakePicture,
+    required this.onPickImage,
   });
 
   @override
@@ -34,7 +36,7 @@ class CameraMode extends StatelessWidget {
           Positioned.fill(child: CameraPreview(camera)),
 
           // =========================================
-          // SCAN BUTTON
+          // CAMERA CONTROLS
           // =========================================
           Positioned(
             left: 0,
@@ -43,33 +45,54 @@ class CameraMode extends StatelessWidget {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 30),
-                child: Center(
-                  child: GestureDetector(
-                    onTap: isScanning ? null : onTakePicture,
-                    child: Container(
-                      width: 78,
-                      height: 78,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.grey.shade400,
-                          width: 4,
+                child: SizedBox(
+                  height: 78,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Gallery button - LEFT
+                      Positioned(
+                        left: 40,
+                        child: IconButton(
+                          onPressed: isScanning ? null : onPickImage,
+                          icon: const Icon(
+                            Icons.photo_library_outlined,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                          tooltip: 'Choose menu photo',
                         ),
                       ),
-                      child: isScanning
-                          ? const Padding(
-                              padding: EdgeInsets.all(22),
-                              child: CircularProgressIndicator(
-                                color: Colors.black,
-                              ),
-                            )
-                          : const Icon(
-                              Icons.camera_alt,
-                              color: Colors.black,
-                              size: 32,
+
+                      // Camera shutter - CENTER
+                      GestureDetector(
+                        onTap: isScanning ? null : onTakePicture,
+                        child: Container(
+                          width: 78,
+                          height: 78,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.grey.shade400,
+                              width: 4,
                             ),
-                    ),
+                          ),
+                          child: isScanning
+                              ? const Padding(
+                                  padding: EdgeInsets.all(22),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.black,
+                                  size: 32,
+                                ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

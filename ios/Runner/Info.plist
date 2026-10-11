@@ -68,5 +68,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select a menu photo to scan and translate dishes.</string>
 </dict>
 </plist>
